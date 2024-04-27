@@ -1,62 +1,59 @@
-import "./App.css"
-import React, { useRef, useState } from 'react';
-import UserList from "./components/UserList";
-import Input from "./components/Input";
+import React from 'react';
+import styled, { ThemeProvider } from "styled-components";
+import { initial } from './styles/Theme';
+import GlobalStyles from './styles/GlobalStyles';
+import { LocomotiveScrollProvider } from 'react-locomotive-scroll'
+import 'locomotive-scroll/dist/locomotive-scroll.css'
+import { useRef } from 'react';
+
+const Sec1 = styled.section`
+  background-color: aliceblue;
+`
+
+const Sec2 = styled.section`
+  background-color: ${props => props.theme.like};
+`
 
 const App = () => {
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      username: "홍준일",
-      email: '네이버'
-    },
-    {
-      id: 2,
-      username: "홍앙순",
-      email: '구글'
-    },
-    {
-      id: 3,
-      username: "홍깡순",
-      email: '카카오'
-    },
-  ])
-
-  const nextId = useRef(4);
-
-  const [input, setInput] = useState({
-    id: nextId.current,
-    username: '',
-    email: ''
-  })
-
-  function inputChanges(e){
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  function createUserInfo(){
-    setUsers([
-      ...users,
-      input
-    ])
-
-    setInput({
-      username: '',
-      email: '',
-    })
-    nextId.current++;
-  }
+  const containerRef = useRef(null)
 
   return (
-    <div className="test">
-      <Input create = {createUserInfo} inputChanges = {inputChanges} input = {input} />
-      {users.map(user => {
-        return <UserList key={user.id} userInfo={user} />
-      })}
-    </div>
+    <>
+      <GlobalStyles />
+      <ThemeProvider theme={initial}>
+        <LocomotiveScrollProvider
+          options={
+            {
+              smooth: true,
+              // ... all available Locomotive Scroll instance options 
+            }
+          }
+          watch={
+            [
+              //..all the dependencies you want to watch to update the scroll.
+              //  Basicaly, you would want to watch page/location changes
+              //  For exemple, on Next.js you would want to watch properties like `router.asPath` (you may want to add more criterias if the instance should be update on locations with query parameters)
+            ]
+          }
+          containerRef={containerRef}
+        >
+          <main data-scroll-container ref={containerRef}>
+            <Sec1>
+              <h1 data-scroll data-scroll-speed="4" data-scroll-delay="0.13">S</h1>
+              <h1 data-scroll data-scroll-speed="4" data-scroll-delay="0.09">E</h1>
+              <h1 data-scroll data-scroll-speed="4" data-scroll-delay="0.06">C</h1>
+              <h1 data-scroll data-scroll-speed="4" data-scroll-delay="0.04">1</h1>
+            </Sec1>
+            <Sec2>
+              <h1 data-scroll data-scroll-speed="4" data-scroll-delay="0.13">S</h1>
+              <h1 data-scroll data-scroll-speed="4" data-scroll-delay="0.09">E</h1>
+              <h1 data-scroll data-scroll-speed="4" data-scroll-delay="0.06">C</h1>
+              <h1 data-scroll data-scroll-speed="4" data-scroll-delay="0.04">2</h1>
+            </Sec2>
+          </main>
+        </LocomotiveScrollProvider>
+      </ThemeProvider>
+    </>
   );
 };
 
