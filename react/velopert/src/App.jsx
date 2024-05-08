@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import TodoHead from './components/TodoHead';
 import TodoList from './components/TodoList';
 import TodoCreate from './components/TodoCreate';
+import { TodoProvider } from './TodoContext';
 
 const TodoTemplateBlock = styled.div`
   width: 512px;
@@ -24,14 +25,14 @@ const TodoTemplateBlock = styled.div`
 
 const App = () => {
   return (
-    <>
+    <TodoProvider>
     <GlobalStyles />
     <TodoTemplateBlock>
       <TodoHead />
       <TodoList />
       <TodoCreate />
     </TodoTemplateBlock>
-    </>
+    </TodoProvider>
   );
 };
 
